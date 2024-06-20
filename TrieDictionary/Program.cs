@@ -9,21 +9,26 @@ string[] words = {
         "the", "their", "they", "there", "towards"};
 
 Trie dictionary = InitializeTrie(words);
-// SearchWord();
-// PrefixAutocomplete();
-// DeleteWord();
-// GetSpellingSuggestions();
+//SearchWord();
+//PrefixAutocomplete();
+//DeleteWord();
+//GetSpellingSuggestions();
 
+// Method to initialize a Trie data structure with a list of words
 Trie InitializeTrie(string[] words)
 {
-    Trie trie = new Trie();
+  // Create a new Trie instance
+  Trie trie = new Trie();
 
-    foreach (string word in words)
-    {
-        trie.Insert(word);
-    }
+  // Iterate over each word in the provided list
+  foreach (string word in words)
+  {
+    // Insert the current word into the Trie
+    trie.Insert(word);
+  }
 
-    return trie;
+  // Return the populated Trie
+  return trie;
 }
 
 void SearchWord()
@@ -36,12 +41,12 @@ void SearchWord()
         {
             break;
         }
-        /*
+
         if (input != null && dictionary.Search(input))
         {
             Console.WriteLine($"Found \"{input}\" in dictionary");
         }
-        */
+
         else
         {
             Console.WriteLine($"Did not find \"{input}\" in dictionary");
@@ -55,7 +60,7 @@ void PrefixAutocomplete()
     GetPrefixInput();
 }
 
-void DeleteWord() 
+void DeleteWord()
 {
     PrintTrie(dictionary);
     while(true)
@@ -66,14 +71,14 @@ void DeleteWord()
         {
             break;
         }
-        /*
+
         if (input != null && dictionary.Search(input))
         {
             dictionary.Delete(input);
             Console.WriteLine($"Deleted \"{input}\" from dictionary\n");
             PrintTrie(dictionary);
         }
-        */
+
         else
         {
             Console.WriteLine($"Did not find \"{input}\" in dictionary");
@@ -81,7 +86,7 @@ void DeleteWord()
     }
 }
 
-void GetSpellingSuggestions() 
+void GetSpellingSuggestions()
 {
     PrintTrie(dictionary);
     Console.WriteLine("\nEnter a word to get spelling suggestions for, or press Enter to exit.");
@@ -94,7 +99,7 @@ void GetSpellingSuggestions()
         {
             Console.WriteLine("No suggestions found.");
         }
-        else 
+        else
         {
             foreach (var word in similarWords)
             {
@@ -115,7 +120,7 @@ void RunAllExercises()
 
 void GetPrefixInput()
 {
-    Console.WriteLine("\nEnter a prefix to search for, then press Tab to " + 
+    Console.WriteLine("\nEnter a prefix to search for, then press Tab to " +
                       "cycle through search results. Press Enter to exit.");
 
     bool running = true;
@@ -134,7 +139,7 @@ void GetPrefixInput()
             prefix = "";
             sb.Append(' ');
             continue;
-        } 
+        }
         else if (input.Key == ConsoleKey.Backspace && Console.CursorLeft > 0)
         {
             Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
@@ -160,7 +165,7 @@ void GetPrefixInput()
                     words = dictionary.AutoSuggest(prefix);
                     wordsIndex = 0;
                 }
-            } 
+            }
             else {
                 words = dictionary.AutoSuggest(prefix);
                 wordsIndex = 0;
@@ -173,8 +178,8 @@ void GetPrefixInput()
                 Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
                 sb.Remove(sb.Length - 1, 1);
             }
-        
-            
+
+
             if (words.Count > 0 && wordsIndex < words.Count)
             {
                 string output = words[wordsIndex++];
@@ -196,11 +201,25 @@ void GetPrefixInput()
 
 void PrintTrie(Trie trie)
 {
-    Console.WriteLine("The dictionary contains the following words:");
-    List<string> words = trie.GetAllWords();
-    foreach (string word in words)
+  Console.WriteLine("The dictionary contains the following words:");
+  List<string> words = trie.GetAllWords();
+  int counter = 0;
+
+  foreach (string word in words)
+  {
+    Console.Write($"{word},\t");
+    counter++;
+
+    if (counter == 5)
     {
-        Console.Write($"{word}, ");
+      Console.WriteLine();
+      counter = 0;
     }
+  }
+
+  // Print a newline if the last line contained less than 5 words
+  if (counter != 0)
+  {
     Console.WriteLine();
+  }
 }
